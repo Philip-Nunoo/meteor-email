@@ -25,5 +25,6 @@ Package.onTest(function(api) {
 
 Npm.depends({
   nodemailer: '6.1.1',
-  url: '0.11.0'
+  url: '0.11.0',
+  fibers: '4.0.1',
 });
