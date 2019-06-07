@@ -64,7 +64,8 @@ const devModeSend = mail => {
     stream.write(`====== BEGIN MAIL #${  devModeMailId  } ======\n`);
     stream.write('(Mail not sent; to enable sending, set the MAIL_URL ' +
                  'environment variable.)\n');
-    const readStream = new MailComposer(mail).compile().createReadStream();
+    const compile = new MailComposer(mail).compile();
+    const readStream = compile.createReadStream();
     readStream.pipe(stream, {end: false});
     const future = new Future();
     readStream.on('end', () => {
@@ -72,6 +73,7 @@ const devModeSend = mail => {
       future.return();
     });
     future.wait();
+    return compile.messageId();
 };
 
 const smtpSend = (transport, mail) => transport._syncSendMail(mail);
